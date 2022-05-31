@@ -27,7 +27,6 @@ public class ProAvailabilityService {
     }
 
     public List<Availability> generateAvailabilities(Integer practitionerId) {
-        // TODO : implement this
-        return new ArrayList<>();
+        return findByPractitionerId(practitionerId);
     }
 }

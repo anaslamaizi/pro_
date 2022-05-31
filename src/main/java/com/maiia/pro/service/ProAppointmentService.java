@@ -23,4 +23,8 @@ public class ProAppointmentService {
     public List<Appointment> findByPractitionerId(String practitionerId) {
         return appointmentRepository.findByPractitionerId(practitionerId);
     }
+
+    public void saveAppointment(Appointment appointment){
+        appointmentRepository.save(appointment);
+    }
 }
