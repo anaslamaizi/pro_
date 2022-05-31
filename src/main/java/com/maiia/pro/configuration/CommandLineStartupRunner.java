@@ -1,8 +1,7 @@
 package com.maiia.pro.configuration;
 
-import com.maiia.pro.entity.Patient;
-import com.maiia.pro.entity.Practitioner;
-import com.maiia.pro.entity.TimeSlot;
+import com.maiia.pro.entity.*;
+import com.maiia.pro.repository.AvailabilityRepository;
 import com.maiia.pro.repository.PatientRepository;
 import com.maiia.pro.repository.PractitionerRepository;
 import com.maiia.pro.repository.TimeSlotRepository;
@@ -29,6 +28,10 @@ public class CommandLineStartupRunner implements CommandLineRunner {
     private PractitionerRepository practitionerRepository;
     @Autowired
     private TimeSlotRepository timeSlotRepository;
+
+    @Autowired
+    private AvailabilityRepository availabilityRepository;
+
 
     @Autowired
     private ProAvailabilityService proAvailabilityService;
@@ -70,7 +73,16 @@ public class CommandLineStartupRunner implements CommandLineRunner {
             practitioner.setSpeciality(speciality);
             practitioner = practitionerRepository.save(practitioner);
             timeSlotRepository.saveAll(timeSlotList);
-
+            Availability availability1 = new Availability();
+            availability1.setPractitionerId(practitioner.getId());
+            availability1.setStartDate(timeSlot1.getStartDate());
+            availability1.setEndDate(timeSlot1.getEndDate());
+            availabilityRepository.save(availability1);
+            Availability availability2 = new Availability();
+            availability2.setPractitionerId(practitioner.getId());
+            availability2.setStartDate(timeSlot2.getStartDate());
+            availability2.setEndDate(timeSlot2.getEndDate());
+            availabilityRepository.save(availability2);
             proAvailabilityService.generateAvailabilities(practitioner.getId());
         }
         log.info("------------------created patients---------------- " + patientRepository.findAll());
